@@ -53,12 +53,15 @@ const TaskContainer = ({listName, tasks=[], onCreatePressed}) => {
                     <ListHeaderText>{ listName }</ListHeaderText>
                 </ListHeaderDiv>
                 <CardDeck>
-                        { tasks.map(task => <TaskCard tasks= { task }/>)}
+                        { tasks.map(task => <TaskCard task= { task }/>)}
                 </CardDeck>
                 <CardCreatorDiv>
                     <CardCreator
                         onClick = {() => {
-                            onCreatePressed("SampleText", listName)}
+                            const isDuplicate = 
+                                tasks.some(task=>task.task==="SampleText");
+                            if(!isDuplicate)
+                                onCreatePressed("SampleText", listName)}
                         }
                     >
                         <FontAwesomeIcon icon={faPlus} />

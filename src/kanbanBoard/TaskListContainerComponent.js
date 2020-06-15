@@ -25,6 +25,7 @@ const TaskListContainer = ({lists=[]}) => {
     const content = (
         <ListWrapper>
                 <TaskContainer listName = "New" />
+                <TaskContainer listName = "In Progress" />
                 {/* {lists.map(list => <TaskContainer listName = {list.name}/>)} */}
         </ListWrapper>
     );

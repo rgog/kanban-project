@@ -28,7 +28,7 @@ const TaskCard = ({ task=[] }) => {
         >
             <div>
                 {/* <span>{ task.text }</span> */}
-                <span>{ "test" }</span>
+                <span>{ task.task }</span>
             </div>  
         </CardItem>
     )

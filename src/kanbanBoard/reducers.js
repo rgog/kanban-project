@@ -10,9 +10,9 @@ import {
     LOAD_TASKS_FAILURE,
 } from './actions'
 
-// const initialState = { isLoading: false, data: [] }
+const initialState = { isLoading: false, data: [] }
 
-export const lists = (state = [], action) =>{
+export const lists = (state = initialState, action) =>{
     const { type, payload} = action;
     switch(type) {
         case CREATE_LIST: {
@@ -49,14 +49,18 @@ export const lists = (state = [], action) =>{
     }
 }
 
-export const tasks = (state = [], action) => {
+export const tasks = (state = initialState, action) => {
     const { type, payload} = action;
     switch(type) {
         case CREATE_TASK: {
             const { task, status } = payload
+            const newTask = {
+                task,
+                status
+            }
             return{
                 ...state,
-                data: state.data.concat(task, status)
+                data: state.data.concat(newTask)
             }
         }
         case DELETE_TASK: {
@@ -79,9 +83,6 @@ export const tasks = (state = [], action) => {
             };
         }
         default:
-        return {
-            ...state,
-            isLoading: false,
-        };
+        return state;
     }
 }
