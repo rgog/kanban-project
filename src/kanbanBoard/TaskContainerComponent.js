@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import TaskCard from "./TaskComponent";
 import { connect } from 'react-redux'
 import { getTasksForList, getVisibleNewCard } from './selectors'
-import { createTask, updateNewcardVisibility, removeNewcardVisibility } from './actions';
+import { createTask, updateNewcardVisibility, removeNewcardVisibility, deleteList, deleteTasksForList } from './actions';
 import NewTaskCard from './NewTaskCardComponent'
 
 const TaskListWrapper = styled.div`
@@ -52,12 +52,40 @@ const CardCreatorButton = styled.button`
     width: 100%;
     text-align: left;
 `;
-const TaskContainer = ({listName, tasks=[], onCreatePressed, onAddTaskPressed, onCancelPressed, showNewCardType}) => {
+
+const DeleteListDiv = styled.div`
+    cursor: pointer;
+    padding: 2px 4px;
+    /* transform: translate(0%, -50%); */
+`;
+
+
+const TaskContainer = ({
+    listName,
+    tasks=[], 
+    onCreatePressed,
+    onAddTaskPressed,
+    onCancelPressed,
+    showNewCardType,
+    onDeleteListPressed,
+    deleteTasksForList}) => {
     const content = (
         <TaskListWrapper>
             <ListContainer>
                 <ListHeaderDiv>
-                    <ListHeaderText>{ listName }</ListHeaderText>
+                    <ListHeaderText>
+                        { listName }
+                    </ListHeaderText>
+                    <DeleteListDiv
+                        onClick={() => {
+                            onDeleteListPressed(listName)
+                            deleteTasksForList(listName)
+                        }}
+                    >
+                        <span className="close">
+                                x
+                        </span>
+                    </DeleteListDiv>
                 </ListHeaderDiv>
                 <CardDeck>
                         { tasks.map(task => <TaskCard task= { task }/>)}
@@ -94,6 +122,8 @@ const mapDispatchToProps = dispatch => ({
     onCreatePressed: (text, status) => dispatch(createTask(text, status)),
     onAddTaskPressed: listName => dispatch(updateNewcardVisibility(listName)),
     onCancelPressed: () => dispatch(removeNewcardVisibility()),
+    onDeleteListPressed: listName => dispatch(deleteList(listName)),
+    deleteTasksForList: listName => dispatch(deleteTasksForList(listName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer);

@@ -27,7 +27,6 @@ const TaskCard = ({ task=[] }) => {
             // onDragStart = {(e) => e.dataTransfer.setData("taskId", task.id)}
         >
             <div>
-                {/* <span>{ task.text }</span> */}
                 <span>{ task.task }</span>
             </div>  
         </CardItem>

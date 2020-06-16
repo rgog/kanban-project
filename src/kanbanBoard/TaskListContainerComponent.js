@@ -6,6 +6,7 @@ import img from '../assets/backgrounds/img1.jpg';
 import { getLists } from './selectors';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createList } from './actions'
 
 const ListWrapper = styled.div`
     padding: 8px;
@@ -44,22 +45,25 @@ const ListCreatorButton = styled.button`
     border-top-left-radius:0px;
 `;
 
-const TaskListContainer = ({lists=[]}) => {
+const TaskListContainer = ({lists=[], onAddListPressed}) => {
     const [inputValue, setInputValue] = useState('');
     const content = (
         <ListWrapper>
-                <TaskContainer listName = "New" />
-                <TaskContainer listName = "In Progress" />
-                {/* {lists.map(list => <TaskContainer listName = {list.name}/>)} */}
+                {/* <TaskContainer listName = "New" />
+                <TaskContainer listName = "In Progress" /> */}
+                {lists.map(list => <TaskContainer listName = {list}/>)}
                 <ListCreatorDiv>
                     <ListCreatorInput
-                        placeholder = "Enter List Name">
-                    </ListCreatorInput>
+                        type="text"
+                        placeholder = "Enter List Name"
+                        value={inputValue}
+                        onChange={e => setInputValue(e.target.value)}/>
                     <ListCreatorButton
                         className="btn btn-success"
-                        // onClick = {() => 
-                        //         onAddListPressed()
-                        // }
+                        onClick = {() => {
+                                onAddListPressed(inputValue);
+                                setInputValue('');
+                        }}
                     >
                         <FontAwesomeIcon className = "faIcon" icon={faPlus} />
                         <b>Add New List</b>
@@ -75,7 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const dispatchStateToProps = dispatch => ({
-    
+    onAddListPressed: text => dispatch(createList(text))
 })
 
-export default connect(mapStateToProps)(TaskListContainer);
+export default connect(mapStateToProps, dispatchStateToProps)(TaskListContainer);

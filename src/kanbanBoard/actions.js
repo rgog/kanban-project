@@ -21,6 +21,12 @@ export const deleteTask = task => ({
     payload: { task }
 });
 
+export const DELETE_TASKS_FOR_LIST = 'DELETE_TASKS_FOR_LIST'
+export const deleteTasksForList = list => ({
+    type: DELETE_TASKS_FOR_LIST,
+    payload: { list }
+});
+
 export const UPDATE_TASK = 'UPDATE_TASK'
 export const updateTask = task => ({
     type: UPDATE_TASK,

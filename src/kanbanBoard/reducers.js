@@ -7,6 +7,7 @@ import {
     UPDATE_LIST,
     UPDATE_NEWCARD_VISIBILITY,
     REMOVE_NEWCARD_VISIBILITY,
+    DELETE_TASKS_FOR_LIST,
     LOAD_TASKS_IN_PROGRESS,
     LOAD_TASKS_SUCCESS,
     LOAD_TASKS_FAILURE,
@@ -43,7 +44,7 @@ export const lists = (state = initialState, action) =>{
             const { list: listToRemove } = payload
             return{
                 ...state,
-                data: state.data.filter(list=>list.id !== listToRemove.id)
+                data: state.data.filter(list=>list !== listToRemove)
             };
         }
         case UPDATE_LIST: {
@@ -59,10 +60,7 @@ export const lists = (state = initialState, action) =>{
             };
         }
         default:
-        return {
-            ...state,
-            isLoading: false,
-        };
+        return state;
     }
 }
 
@@ -85,6 +83,13 @@ export const tasks = (state = initialState, action) => {
             return{
                 ...state,
                 data: state.data.filter(task=>task.id !== taskToRemove.id)
+            };
+        }
+        case DELETE_TASKS_FOR_LIST: {
+            const { list: listToRemove } = payload
+            return{
+                ...state,
+                data: state.data.filter(task=>task.status !== listToRemove)
             };
         }
         case UPDATE_TASK: {
