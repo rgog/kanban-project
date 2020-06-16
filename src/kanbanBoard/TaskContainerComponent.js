@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from 'styled-components';
 import TaskCard from "./TaskComponent";
 import { connect } from 'react-redux'
-import { getTasksForList } from './selectors'
-import { createTask } from './actions';
+import { getTasksForList, getVisibleNewCard } from './selectors'
+import { createTask, updateNewcardVisibility, removeNewcardVisibility } from './actions';
+import NewTaskCard from './NewTaskCardComponent'
 
 const TaskListWrapper = styled.div`
-    margin:0 4px;
+    margin:0 10px;
     padding: 8px;
     width: 230px;    
 `;
@@ -34,18 +35,24 @@ const ListContainer = styled.div`
 const CardDeck = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height:80vh;    
+    /* max-height:80vh;     */
 `;
 const CardCreatorDiv = styled.div`
     height: 38px;
     display: flex;
-    justify-content: space-between;
-    
+    align-items:center;
 `;
-const CardCreator = styled.a`
-    padding:8px;
+const CardCreatorButton = styled.button`
+    &:hover{
+        background-color: lightgray;
+    }
+    padding:10px;
+    border:0ch;    
+    background-color:#e9e6e6;
+    width: 100%;
+    text-align: left;
 `;
-const TaskContainer = ({listName, tasks=[], onCreatePressed}) => {
+const TaskContainer = ({listName, tasks=[], onCreatePressed, onAddTaskPressed, onCancelPressed, showNewCardType}) => {
     const content = (
         <TaskListWrapper>
             <ListContainer>
@@ -54,19 +61,23 @@ const TaskContainer = ({listName, tasks=[], onCreatePressed}) => {
                 </ListHeaderDiv>
                 <CardDeck>
                         { tasks.map(task => <TaskCard task= { task }/>)}
+                        { showNewCardType===listName ?  
+                        <NewTaskCard
+                            status = { listName }
+                            onCreatePressed = { onCreatePressed }
+                            onCancelPressed = { onCancelPressed }/>:
+                            null
+                        }
+    
                 </CardDeck>
                 <CardCreatorDiv>
-                    <CardCreator
-                        onClick = {() => {
-                            const isDuplicate = 
-                                tasks.some(task=>task.task==="SampleText");
-                            if(!isDuplicate)
-                                onCreatePressed("SampleText", listName)}
-                        }
+                    <CardCreatorButton
+                        onClick = {() => 
+                                onAddTaskPressed(listName)}
                     >
                         <FontAwesomeIcon icon={faPlus} />
-                        <b>Add new Task</b>
-                    </CardCreator>
+                        <b>Add New Task</b>
+                    </CardCreatorButton>
                 </CardCreatorDiv>
             </ListContainer>
         </TaskListWrapper>
@@ -75,11 +86,14 @@ const TaskContainer = ({listName, tasks=[], onCreatePressed}) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    tasks: getTasksForList(state, ownProps),
+    tasks: getTasksForList(state, ownProps.listName),
+    showNewCardType: getVisibleNewCard(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     onCreatePressed: (text, status) => dispatch(createTask(text, status)),
+    onAddTaskPressed: listName => dispatch(updateNewcardVisibility(listName)),
+    onCancelPressed: () => dispatch(removeNewcardVisibility()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer);

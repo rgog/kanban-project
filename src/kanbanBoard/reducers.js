@@ -5,12 +5,29 @@ import {
     CREATE_LIST,
     DELETE_LIST,
     UPDATE_LIST,
+    UPDATE_NEWCARD_VISIBILITY,
+    REMOVE_NEWCARD_VISIBILITY,
     LOAD_TASKS_IN_PROGRESS,
     LOAD_TASKS_SUCCESS,
     LOAD_TASKS_FAILURE,
 } from './actions'
 
 const initialState = { isLoading: false, data: [] }
+
+export const visibleListCreator = (state='', action) =>{
+    const { type, payload } = action;
+    switch (type) {
+        case UPDATE_NEWCARD_VISIBILITY:{
+            const { newCard } = payload;
+            return newCard;
+        }
+        case REMOVE_NEWCARD_VISIBILITY:{
+            return "";
+        }
+        default:
+            return state;
+    }
+}
 
 export const lists = (state = initialState, action) =>{
     const { type, payload} = action;

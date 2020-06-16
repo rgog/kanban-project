@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 const CardItem = styled.div`
     &:hover{
-        background-color: lightgray;
+        background-color: #F4F3F2;
         transform: scale(1.02);
-        transition: all 0.3s ease;
+        transition: all 0.1s ease;
     }
     &:active{
         transform: scale(1.02) rotate(2deg);

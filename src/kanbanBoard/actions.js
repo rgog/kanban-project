@@ -1,3 +1,14 @@
+export const UPDATE_NEWCARD_VISIBILITY = 'UPDATE_NEWCARD_VISIBILITY'
+export const updateNewcardVisibility = newCard => ({
+    type:UPDATE_NEWCARD_VISIBILITY,
+    payload: { newCard }
+});
+
+export const REMOVE_NEWCARD_VISIBILITY = 'REMOVE_NEWCARD_VISIBILITY'
+export const removeNewcardVisibility = () => ({
+    type:REMOVE_NEWCARD_VISIBILITY,
+});
+
 export const CREATE_TASK = 'CREATE_TASK'
 export const createTask = (task, status) => ({
     type: CREATE_TASK,

@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { tasks, lists } from './kanbanBoard/reducers';
+import { tasks, lists, visibleListCreator } from './kanbanBoard/reducers';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
@@ -9,10 +9,12 @@ import { autoMergeLevel2 } from 'redux-persist/lib/stateReconciler/autoMergeLeve
 const reducers = {
     tasks,
     lists,
+    visibleListCreator,
 };
 
 const persistConfig = {
     key: 'root',
+    blacklist:['visibleListCreator'],
     storage,
     stateReconciler: autoMergeLevel2,
 };

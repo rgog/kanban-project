@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TaskContainer from './TaskContainerComponent';
 import img from '../assets/backgrounds/img1.jpg';
 import { getLists } from './selectors';
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ListWrapper = styled.div`
     padding: 8px;
@@ -20,13 +22,49 @@ const ListWrapper = styled.div`
     background-size: cover;
 `;
 
+const ListCreatorDiv = styled.div`
+    margin:0 10px;
+    padding: 8px;
+    width: 230px;
+`;
+
+const ListCreatorInput = styled.input`
+    width: 100%;
+    height: 40px;
+    border-style: none;
+    border-top-right-radius:4px;
+    border-top-left-radius:4px;
+    padding:8px;
+`;
+const ListCreatorButton = styled.button`
+    width: 100%;
+    height: 40px;
+    border-style: none;
+    border-top-right-radius:0px;
+    border-top-left-radius:0px;
+`;
+
 const TaskListContainer = ({lists=[]}) => {
-    // const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState('');
     const content = (
         <ListWrapper>
                 <TaskContainer listName = "New" />
                 <TaskContainer listName = "In Progress" />
                 {/* {lists.map(list => <TaskContainer listName = {list.name}/>)} */}
+                <ListCreatorDiv>
+                    <ListCreatorInput
+                        placeholder = "Enter List Name">
+                    </ListCreatorInput>
+                    <ListCreatorButton
+                        className="btn btn-success"
+                        // onClick = {() => 
+                        //         onAddListPressed()
+                        // }
+                    >
+                        <FontAwesomeIcon className = "faIcon" icon={faPlus} />
+                        <b>Add New List</b>
+                    </ListCreatorButton>
+                </ListCreatorDiv>
         </ListWrapper>
     );
     return content;
@@ -36,8 +74,8 @@ const mapStateToProps = state => ({
     lists: getLists(state)
 });
 
-// const dispatchStateToProps = dispatch => ({
+const dispatchStateToProps = dispatch => ({
     
-// })
+})
 
 export default connect(mapStateToProps)(TaskListContainer);
