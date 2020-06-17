@@ -84,7 +84,7 @@ const TaskListContainer = ({
                     className="btn btn-success"
                     onClick = {() => {
                         if(!(inputValue==="")){
-                            const isDuplicate = lists.some(list=>list.ignoreCase===inputValue.trim().ignoreCase);
+                            const isDuplicate = lists.some(list=>list.toLowerCase()===inputValue.trim().toLowerCase());
                             if(!isDuplicate){
                                 onAddListPressed(inputValue.trim());
                                 setInputValue('');
