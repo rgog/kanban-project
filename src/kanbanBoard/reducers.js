@@ -82,7 +82,7 @@ export const tasks = (state = initialState, action) => {
             const { task: taskToRemove } = payload
             return{
                 ...state,
-                data: state.data.filter(task=>task.id !== taskToRemove.id)
+                data: state.data.filter(task=>task.task !== taskToRemove.task)
             };
         }
         case DELETE_TASKS_FOR_LIST: {

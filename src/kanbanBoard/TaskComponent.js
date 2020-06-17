@@ -9,9 +9,9 @@ const CardItem = styled.div`
         transform: scale(1.02);
         transition: all 0.1s ease;
     }
-    &:active{
+    /* &:active{
         transform: scale(1.02) rotate(2deg);
-    }
+    } */
     box-shadow:0 1px 0 rgba(9,30,66,.25);
     position:relative;
     border-radius:3px;
@@ -20,12 +20,25 @@ const CardItem = styled.div`
     padding: 8px;
     margin:8px;
 `;
-const TaskCard = ({ task=[] }) => {
+
+const DeleteCardDiv = styled.div`
+    cursor: pointer;
+`;
+
+const TaskCard = ({ task=[], onDeleteTaskPressed }) => {
     const content = (
         <CardItem
             draggable="true"
             // onDragStart = {(e) => e.dataTransfer.setData("taskId", task.id)}
         >
+            <DeleteCardDiv
+            onClick={() => {
+                onDeleteTaskPressed(task)
+            }}>
+                <span className="close">
+                        x
+                </span>
+            </DeleteCardDiv>
             <div>
                 <span>{ task.task }</span>
             </div>  

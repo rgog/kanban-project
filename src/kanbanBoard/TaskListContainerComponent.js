@@ -6,7 +6,14 @@ import img from '../assets/backgrounds/img1.jpg';
 import { getLists } from './selectors';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createList } from './actions'
+import {
+    createList,
+    deleteList,
+    deleteTasksForList,
+    updateNewcardVisibility,
+    removeNewcardVisibility,
+    createTask,
+    deleteTask, } from './actions'
 
 const ListWrapper = styled.div`
     padding: 8px;
@@ -31,6 +38,7 @@ const ListCreatorDiv = styled.div`
 
 const ListCreatorInput = styled.input`
     width: 100%;
+    min-width:200px;
     height: 40px;
     border-style: none;
     border-top-right-radius:4px;
@@ -45,30 +53,53 @@ const ListCreatorButton = styled.button`
     border-top-left-radius:0px;
 `;
 
-const TaskListContainer = ({lists=[], onAddListPressed}) => {
+const TaskListContainer = ({
+    lists=[],
+    onAddListPressed,
+    onDeleteListPressed,
+    deleteTasksForList,
+    onAddTaskPressed,
+    onCancelPressed,
+    onCreatePressed,
+    onDeleteTaskPressed}) => {
     const [inputValue, setInputValue] = useState('');
+    const [placeHolder, setPlaceHolderValue] = useState("Enter List Name");
     const content = (
         <ListWrapper>
-                {/* <TaskContainer listName = "New" />
-                <TaskContainer listName = "In Progress" /> */}
-                {lists.map(list => <TaskContainer listName = {list}/>)}
-                <ListCreatorDiv>
-                    <ListCreatorInput
-                        type="text"
-                        placeholder = "Enter List Name"
-                        value={inputValue}
-                        onChange={e => setInputValue(e.target.value)}/>
-                    <ListCreatorButton
-                        className="btn btn-success"
-                        onClick = {() => {
-                                onAddListPressed(inputValue);
+            {lists.map(list => <TaskContainer 
+                listName={list} 
+                onDeleteListPressed={onDeleteListPressed}
+                deleteTasksForList={deleteTasksForList}
+                onAddTaskPressed={onAddTaskPressed}
+                onCancelPressed={onCancelPressed}
+                onCreatePressed={onCreatePressed}
+                onDeleteTaskPressed={onDeleteTaskPressed}/>)}
+            <ListCreatorDiv>
+                <ListCreatorInput
+                    type="text"
+                    placeholder = { placeHolder }
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}/>
+                <ListCreatorButton
+                    className="btn btn-success"
+                    onClick = {() => {
+                        if(!(inputValue==="")){
+                            const isDuplicate = lists.some(list=>list.ignoreCase===inputValue.trim().ignoreCase);
+                            if(!isDuplicate){
+                                onAddListPressed(inputValue.trim());
                                 setInputValue('');
-                        }}
-                    >
-                        <FontAwesomeIcon className = "faIcon" icon={faPlus} />
-                        <b>Add New List</b>
-                    </ListCreatorButton>
-                </ListCreatorDiv>
+                            }
+                            else{
+                                setPlaceHolderValue('This list already exists!')
+                                setInputValue('');
+                            }
+                        }
+                    }}
+                >
+                    <FontAwesomeIcon className = "faIcon" icon={faPlus} />
+                    <b>Add New List</b>
+                </ListCreatorButton>
+            </ListCreatorDiv>
         </ListWrapper>
     );
     return content;
@@ -79,7 +110,13 @@ const mapStateToProps = state => ({
 });
 
 const dispatchStateToProps = dispatch => ({
-    onAddListPressed: text => dispatch(createList(text))
+    onAddListPressed: text => dispatch(createList(text)),
+    onDeleteListPressed: listName => dispatch(deleteList(listName)),
+    onCreatePressed: (text, status) => dispatch(createTask(text, status)),
+    deleteTasksForList: listName => dispatch(deleteTasksForList(listName)),
+    onCancelPressed: () => dispatch(removeNewcardVisibility()),
+    onAddTaskPressed: listName => dispatch(updateNewcardVisibility(listName)),
+    onDeleteTaskPressed: task => dispatch(deleteTask(task)),
 })
 
 export default connect(mapStateToProps, dispatchStateToProps)(TaskListContainer);

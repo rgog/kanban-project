@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import TaskCard from "./TaskComponent";
 import { connect } from 'react-redux'
 import { getTasksForList, getVisibleNewCard } from './selectors'
-import { createTask, updateNewcardVisibility, removeNewcardVisibility, deleteList, deleteTasksForList } from './actions';
 import NewTaskCard from './NewTaskCardComponent'
 
 const TaskListWrapper = styled.div`
@@ -68,35 +67,36 @@ const TaskContainer = ({
     onCancelPressed,
     showNewCardType,
     onDeleteListPressed,
-    deleteTasksForList}) => {
+    deleteTasksForList,
+    onDeleteTaskPressed,}) => {
     const content = (
         <TaskListWrapper>
-            <ListContainer>
+            <ListContainer draggable="true">
                 <ListHeaderDiv>
                     <ListHeaderText>
                         { listName }
                     </ListHeaderText>
                     <DeleteListDiv
-                        onClick={() => {
-                            onDeleteListPressed(listName)
-                            deleteTasksForList(listName)
-                        }}
-                    >
+                    onClick={() => {
+                        onDeleteListPressed(listName)
+                        deleteTasksForList(listName)
+                    }}>
                         <span className="close">
                                 x
                         </span>
                     </DeleteListDiv>
                 </ListHeaderDiv>
                 <CardDeck>
-                        { tasks.map(task => <TaskCard task= { task }/>)}
-                        { showNewCardType===listName ?  
-                        <NewTaskCard
-                            status = { listName }
-                            onCreatePressed = { onCreatePressed }
-                            onCancelPressed = { onCancelPressed }/>:
-                            null
-                        }
-    
+                    { tasks.map(task => <TaskCard 
+                    task= { task }
+                    onDeleteTaskPressed={onDeleteTaskPressed}/>)}
+                    { showNewCardType===listName ?  
+                    <NewTaskCard
+                        status = { listName }
+                        onCreatePressed = { onCreatePressed }
+                        onCancelPressed = { onCancelPressed }/>:
+                        null
+                    }
                 </CardDeck>
                 <CardCreatorDiv>
                     <CardCreatorButton
@@ -118,12 +118,5 @@ const mapStateToProps = (state, ownProps) => ({
     showNewCardType: getVisibleNewCard(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-    onCreatePressed: (text, status) => dispatch(createTask(text, status)),
-    onAddTaskPressed: listName => dispatch(updateNewcardVisibility(listName)),
-    onCancelPressed: () => dispatch(removeNewcardVisibility()),
-    onDeleteListPressed: listName => dispatch(deleteList(listName)),
-    deleteTasksForList: listName => dispatch(deleteTasksForList(listName)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer);
+export default connect(mapStateToProps)(TaskContainer);

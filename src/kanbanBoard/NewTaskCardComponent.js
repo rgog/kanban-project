@@ -49,9 +49,9 @@ const NewTaskCard = ({status, onCreatePressed, tasks=[], onCancelPressed}) => {
                     onClick = {() => {
                         if(!(inputValue==="")){
                             const isDuplicate = 
-                                    tasks.some(task=>task.task=== inputValue);
+                                    tasks.some(task=>task.task.ignoreCase=== inputValue.trim().ignoreCase);
                             if(!isDuplicate){
-                                onCreatePressed(inputValue, status);
+                                onCreatePressed(inputValue.trim(), status);
                                 setPlaceHolderValue('Type your new task here');
                                 setInputValue('');
                             }
