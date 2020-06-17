@@ -6,6 +6,8 @@ import TaskCard from "./TaskComponent";
 import { connect } from 'react-redux'
 import { getTasksForList, getVisibleNewCard } from './selectors'
 import NewTaskCard from './NewTaskCardComponent'
+import { useDrop } from 'react-dnd';
+import { ItemTypes } from '../Utils/Items';
 
 const TaskListWrapper = styled.div`
     margin:0 10px;
@@ -34,6 +36,7 @@ const ListContainer = styled.div`
 const CardDeck = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
+    min-height:50px;
     /* max-height:80vh;     */
 `;
 const CardCreatorDiv = styled.div`
@@ -68,7 +71,15 @@ const TaskContainer = ({
     showNewCardType,
     onDeleteListPressed,
     deleteTasksForList,
-    onDeleteTaskPressed,}) => {
+    onDeleteTaskPressed,
+    onStatusUpdate}) => {
+        const[{isOver}, drop] = useDrop({
+            accept: ItemTypes.CARD,
+            drop: (item, monitor) => onStatusUpdate(item.id, listName),
+            collect: monitor => ({
+                isOver: !!monitor.isOver(),
+            }),
+        });
     const content = (
         <TaskListWrapper>
             <ListContainer draggable="true">
@@ -86,7 +97,9 @@ const TaskContainer = ({
                         </span>
                     </DeleteListDiv>
                 </ListHeaderDiv>
-                <CardDeck>
+                <CardDeck 
+                ref= {drop}
+                bg= {isOver ? 'Green' : 'Yellow'}>
                     { tasks.map(task => <TaskCard 
                     task= { task }
                     onDeleteTaskPressed={onDeleteTaskPressed}/>)}

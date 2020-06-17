@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { faPlus } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDrag } from 'react-dnd'
+import { ItemTypes} from '../Utils/Items'
 
 const CardItem = styled.div`
     &:hover{
@@ -9,9 +9,6 @@ const CardItem = styled.div`
         transform: scale(1.02);
         transition: all 0.1s ease;
     }
-    /* &:active{
-        transform: scale(1.02) rotate(2deg);
-    } */
     box-shadow:0 1px 0 rgba(9,30,66,.25);
     position:relative;
     border-radius:3px;
@@ -26,9 +23,20 @@ const DeleteCardDiv = styled.div`
 `;
 
 const TaskCard = ({ task=[], onDeleteTaskPressed }) => {
+    const [{ isDragging }, drag] = useDrag({
+        item: {
+            type: ItemTypes.CARD,
+            id: task.task,
+        },
+        collect: monitor => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    })
     const content = (
         <CardItem
-            draggable="true"
+        ref= { drag }
+        // opacity={isDragging? '0.1':'1'}
+        // transform= {isDragging? 'scale(1.02) rotate(2deg)':'scale(1)'}
             // onDragStart = {(e) => e.dataTransfer.setData("taskId", task.id)}
         >
             <DeleteCardDiv

@@ -13,7 +13,8 @@ import {
     updateNewcardVisibility,
     removeNewcardVisibility,
     createTask,
-    deleteTask, } from './actions'
+    deleteTask,
+    updateTask,} from './actions'
 
 const ListWrapper = styled.div`
     padding: 8px;
@@ -61,7 +62,8 @@ const TaskListContainer = ({
     onAddTaskPressed,
     onCancelPressed,
     onCreatePressed,
-    onDeleteTaskPressed}) => {
+    onDeleteTaskPressed,
+    onStatusUpdate}) => {
     const [inputValue, setInputValue] = useState('');
     const [placeHolder, setPlaceHolderValue] = useState("Enter List Name");
     const content = (
@@ -73,7 +75,8 @@ const TaskListContainer = ({
                 onAddTaskPressed={onAddTaskPressed}
                 onCancelPressed={onCancelPressed}
                 onCreatePressed={onCreatePressed}
-                onDeleteTaskPressed={onDeleteTaskPressed}/>)}
+                onDeleteTaskPressed={onDeleteTaskPressed}
+                onStatusUpdate={onStatusUpdate}/>)}
             <ListCreatorDiv>
                 <ListCreatorInput
                     type="text"
@@ -117,6 +120,7 @@ const dispatchStateToProps = dispatch => ({
     onCancelPressed: () => dispatch(removeNewcardVisibility()),
     onAddTaskPressed: listName => dispatch(updateNewcardVisibility(listName)),
     onDeleteTaskPressed: task => dispatch(deleteTask(task)),
+    onStatusUpdate: (id, status) => dispatch(updateTask(id, status)),
 })
 
 export default connect(mapStateToProps, dispatchStateToProps)(TaskListContainer);

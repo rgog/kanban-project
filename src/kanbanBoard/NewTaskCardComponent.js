@@ -37,11 +37,12 @@ const NewTaskCard = ({status, onCreatePressed, tasks=[], onCancelPressed}) => {
     const content = (
         <NewTaskCardDiv>
             <NewTaskCardArea
-                onKeyDown={e => auto_grow(e)}
-                // type="text"
-                placeholder= {placeHolder}
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}>
+            autoFocus = 'true'
+            onKeyDown={e => auto_grow(e)}
+            // type="text"
+            placeholder= {placeHolder}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}>
             </NewTaskCardArea>
             <ButtonsDiv>
                 <Buttons

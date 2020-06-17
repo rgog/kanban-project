@@ -28,9 +28,9 @@ export const deleteTasksForList = list => ({
 });
 
 export const UPDATE_TASK = 'UPDATE_TASK'
-export const updateTask = task => ({
+export const updateTask = (taskId, status) => ({
     type: UPDATE_TASK,
-    payload: { task }
+    payload: { taskId, status }
 });
 
 export const LOAD_TASKS_IN_PROGRESS = "LOAD_TASKS_IN_PROGRESS";

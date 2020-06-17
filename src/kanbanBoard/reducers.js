@@ -93,12 +93,12 @@ export const tasks = (state = initialState, action) => {
             };
         }
         case UPDATE_TASK: {
-            const { task: taskToUpdate } = payload
+            const { taskId, status } = payload
             return{
                 ...state,
                 data: state.data.map(task=>{
-                    if(task.id === taskToUpdate.id){
-                        return taskToUpdate;
+                    if(task.task === taskId){
+                        return {...task, status:status};
                     }
                     return task;
                 }),
