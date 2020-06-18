@@ -13,7 +13,8 @@ import {
     LOAD_TASKS_FAILURE,
 } from './actions'
 
-const initialState = { isLoading: false, data: [] }
+const taskInitialState = { isLoading: false, data: [] }
+const listInitialState = { isLoading: false, data: ['New', 'In Progress', 'Completed'] }
 
 export const visibleListCreator = (state='', action) =>{
     const { type, payload } = action;
@@ -30,7 +31,7 @@ export const visibleListCreator = (state='', action) =>{
     }
 }
 
-export const lists = (state = initialState, action) =>{
+export const lists = (state = listInitialState, action) =>{
     const { type, payload} = action;
     switch(type) {
         case CREATE_LIST: {
@@ -59,12 +60,13 @@ export const lists = (state = initialState, action) =>{
                 }),
             };
         }
-        default:
-        return state;
+        default:{
+            return state;
+        }
     }
 }
 
-export const tasks = (state = initialState, action) => {
+export const tasks = (state = taskInitialState, action) => {
     const { type, payload} = action;
     switch(type) {
         case CREATE_TASK: {

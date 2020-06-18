@@ -12,7 +12,7 @@ import { ItemTypes } from '../Utils/Items';
 const TaskListWrapper = styled.div`
     margin:0 10px;
     padding: 8px;
-    width: 230px;    
+    width: 230px;
 `;
 const ListHeaderText = styled.b`
     padding: 8px;
@@ -21,14 +21,16 @@ const ListHeaderDiv = styled.div`
     height: 38px;
     display: flex;
     justify-content: space-between;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 `;
 const ListContainer = styled.div`
     
-    background-color:#e9e6e6;
+    background-color:#cac6c2c9;
     width: 230px;
     max-height:100%;
     border-radius: 4px;
-    box-shadow: 0 4px 8px grey;
+    box-shadow: 0px 0px 5px 1px grey;
     /* position:relative; */
     display:flex;
     flex-direction:column;
@@ -37,7 +39,7 @@ const CardDeck = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
     min-height:50px;
-    /* max-height:80vh;     */
+    box-shadow: inset 0px 0px 6px 3px #8080808a;
 `;
 const CardCreatorDiv = styled.div`
     height: 38px;
@@ -46,11 +48,11 @@ const CardCreatorDiv = styled.div`
 `;
 const CardCreatorButton = styled.button`
     &:hover{
-        background-color: lightgray;
+        background-color: #9c9c9c;
     }
-    padding:10px;
+    padding:7px;
     border:0ch;    
-    background-color:#e9e6e6;
+    background-color:#cac6c2c9;
     width: 100%;
     text-align: left;
 `;
@@ -82,7 +84,7 @@ const TaskContainer = ({
         });
     const content = (
         <TaskListWrapper>
-            <ListContainer draggable="true">
+            <ListContainer className='ListContainer'draggable="true">
                 <ListHeaderDiv>
                     <ListHeaderText>
                         { listName }

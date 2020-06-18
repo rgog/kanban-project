@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TaskContainer from './TaskContainerComponent';
-import img from '../assets/backgrounds/img1.jpg';
 import { getLists } from './selectors';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,11 +23,9 @@ const ListWrapper = styled.div`
     position: absolute;
     padding-bottom: 8px;
     bottom: 0;
-    top: 0;
+    top: 4.5rem;
     right: 0;
     left: 0;
-    background-image: url(${img});
-    background-size: cover;
 `;
 
 const ListCreatorDiv = styled.div`
@@ -45,6 +42,8 @@ const ListCreatorInput = styled.input`
     border-top-right-radius:4px;
     border-top-left-radius:4px;
     padding:8px;
+    background-color:#cac6c2;
+    box-shadow: 0px 0px 5px 1px grey;
 `;
 const ListCreatorButton = styled.button`
     width: 100%;
@@ -52,6 +51,7 @@ const ListCreatorButton = styled.button`
     border-style: none;
     border-top-right-radius:0px;
     border-top-left-radius:0px;
+    box-shadow: 0px 0px 5px 1px grey;
 `;
 
 const TaskListContainer = ({

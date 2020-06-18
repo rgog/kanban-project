@@ -37,7 +37,7 @@ const NewTaskCard = ({status, onCreatePressed, tasks=[], onCancelPressed}) => {
     const content = (
         <NewTaskCardDiv>
             <NewTaskCardArea
-            autoFocus = 'true'
+            autoFocus = {true}
             onKeyDown={e => auto_grow(e)}
             // type="text"
             placeholder= {placeHolder}
