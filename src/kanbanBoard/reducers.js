@@ -14,7 +14,7 @@ import {
 } from './actions'
 
 const taskInitialState = { isLoading: false, data: [] }
-const listInitialState = { isLoading: false, data: ['New', 'In Progress', 'Completed'] }
+const listInitialState = { isLoading: false, data: ['Open', 'In Progress', 'Completed'] }
 
 export const visibleListCreator = (state='', action) =>{
     const { type, payload } = action;
